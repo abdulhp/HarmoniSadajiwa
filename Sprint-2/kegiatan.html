@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harmoni Sadajiwa</title>
+    <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./node_modules/font-awesome/css/font-awesome.min.css">
+    <link href='./node_modules/fullcalendar/main.css' rel='stylesheet' />
+    <style>
+        body {
+            background-color: #D2C1B5;
+        }
+        .bg-dark{
+            background-color: #000!important;
+        }
+        #jumbo-img{
+            top: 0;
+        }
+    </style>
+</head>
+<body>
+    
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark container-fluid mb-3">
+        <div class="container">
+            <a class="navbar-brand" href="#"><img src="./assets/img/Harmoni Sadajiwa.png" width="50%" alt="Harmoni Sadajiwa"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse d-flex flex-row-reverse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Beranda</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="artikel.html">Artikel</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="musik.html">Musik</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page">Kegiatan</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="tentangKami.html">Tentang Kami</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="container d-flex flex-row justify-content-center">
+        <div class="mx-5">
+            <h1>Kegiatan</h1>
+            <p>Belum ada kegiatan yang tersedia</p>
+        </div>
+        
+        <div class="w-50">
+            <div id='calendar'></div>
+        </div>
+    </div>
+    
+    <footer class="text-white text-center text-lg-start" style="background-color: #785757">
+        <!-- Grid container -->
+        <div class="container p-4">
+          <!--Grid row-->
+          <div class="row">
+            <!--Grid column-->
+            <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
+              <h5 class="text-uppercase">Harmoni Sadajiwa</h5>
+              
+              <p><span class="fa fa-map-marker-alt"></span>
+                Kampus IT Telkom Purwokerto, Jl. D. I. Pandjaitan No. 128, Purwokerto, 53147
+              </p>
+              <p><span class="fa fa-phone"></span>
+                +62 857 1111 2222
+              </p>
+              <p><span class="fa fa-envelope"></span>
+                harmonisadajiwa@megane.id
+              </p>
+            </div>
+            <!--Grid column-->
+            
+            <!--Grid column-->
+            <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+              <h5 class="text-uppercase">Social Media</h5>
+              
+              <ul class="list-unstyled mb-0">
+                <a href="#!" class="text-white"><span class="fab fa-facebook"></span> Harmoni Sadajiwa</a>
+              </li>
+              <li>
+                <a href="#!" class="text-white"><span class="fab fa-instagram"></span> harmonisadajiwa</a>
+              </li>
+              <li>
+                <a href="#!" class="text-white"><span class="fab fa-twitter"></span> harmonisadajiwa</a>
+              </li>
+              <li>
+                <a href="#!" class="text-white"><span class="fab fa-youtube"></span> Harmoni Sadajiwa</a>
+              </li>
+            </ul>
+          </div>
+          <!--Grid column-->
+          
+          <!--Grid column-->
+          <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+            <h5 class="text-uppercase mb-0">Q&A</h5>
+            <p>
+              Kebijakan Privasi
+              Syarat dan Ketentuan
+              
+              HARMONI SADAJIWA      2021 </p>
+            </div>
+            <!--Grid column-->
+          </div>
+          <!--Grid row-->
+        </div>
+        <!-- Grid container -->
+        
+        <!-- Copyright -->
+        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+          © 2021 Copyright:
+          <a class="text-white">Harmoni Sadajiwa</a>
+        </div>
+        <!-- Copyright -->
+      </footer>
+
+    <script src="/node_modules/jquery/dist/jquery.min.js" crossorigin="anonymous"></script>
+    <script src="/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    
+    <script src='./node_modules/fullcalendar/main.js'></script>
+    <script>
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                themeSystem: 'bootstrap',
+                initialView: 'dayGridMonth'
+            });
+            calendar.render();
+        });
+        
+    </script>
+</body>
+</html>
