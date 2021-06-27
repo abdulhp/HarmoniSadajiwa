@@ -7,7 +7,7 @@
     background: #D2C1B5;
     margin:0;
     color:white;
-	display:grid;
+    display:grid;
     grid-template-columns: auto;
     grid-template-rows: auto 40% 40%;
     grid-template-areas: "body";
@@ -19,6 +19,12 @@
     width: 100%;
     min-height: 200px;
   	padding: 20px;
-    
 }
 
+button{
+  color: white;
+  background-color: black;
+  padding: 10%;
+  text-align: center;
+  font-family: 'Roboto';
+}
