@@ -30,6 +30,10 @@
     <input type="file" name="gambar" id="gambar">
     <div class="row">
     </div>
+    <label for="audio">Pilih Musik</label>
+    <input type="file" name="audio" id="audio">
+    <div class="row">
+    </div>
     <hr class="mb-4">
     <button class="btn btn-primary btn-lg btn-block" type="submit">Simpan Data</button>
     </form>
