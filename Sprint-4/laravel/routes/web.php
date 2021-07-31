@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +17,20 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+//Universal Login and Member Registration
+Route::get('/login', [AdminController::class, 'login'])
+->name('admin.login');
+
+Route::post('/login', [AdminController::class, 'login'])
+->name('admin.postLogin');
+
+Route::get('/register', [AdminController::class, 'register'])
+->name('admin.register');
+
+Route::post('/register', [AdminController::class, 'register'])
+->name('admin.postRegister');
+
+//Admin Route
+Route::get('/admin', [AdminController::class, 'index'])
+->name('admin.index');
