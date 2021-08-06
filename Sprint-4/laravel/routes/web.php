@@ -42,6 +42,7 @@ Route::middleware('login.check')->group(function () {
     Route::get('/admin/dashboard', [AdminController::class, 'index'])
     ->name('admin.dashboard');
 
+    //artikel
     Route::get('/admin/artikel', [AdminController::class, 'artikel'])
     ->name('admin.artikel');
 
@@ -59,4 +60,23 @@ Route::middleware('login.check')->group(function () {
 
     route::delete('/admin/artikel/delete/{id}', [AdminController::class, 'artikelDelete'])
     ->name('admin.artikel.delete');
+
+    //musik
+    Route::get('/admin/musik', [AdminController::class, 'musik'])
+    ->name('admin.musik');
+
+    route::get('/admin/musik/input', [AdminController::class, 'musikInput'])
+    ->name('admin.musik.Input');
+
+    route::post('admin/musik/input', [AdminController::class, 'musikInput'])
+    ->name('admin.musik.postInput');
+
+    route::get('/admin/musik/edit/{id}', [AdminController::class, 'musikInput'])
+    ->name('admin.musik.edit');
+
+    route::patch('/admin/musik/edit/{id}', [AdminController::class, 'musikUpdate'])
+    ->name('admin.musik.postEdit');
+
+    route::delete('/admin/musik/delete/{id}', [AdminController::class, 'musikDelete'])
+    ->name('admin.musik.delete');
 });

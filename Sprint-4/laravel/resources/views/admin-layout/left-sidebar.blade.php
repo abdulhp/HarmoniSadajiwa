@@ -26,7 +26,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link @if($data['activeMenu'] == 'Musik') active @endif">
+                    <a href="{{route('admin.musik')}}" class="nav-link @if($data['activeMenu'] == 'Musik') active @endif">
                         <i class="nav-icon fas fa-music"></i>
                         <p>
                             Musik

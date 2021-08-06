@@ -42,7 +42,7 @@
                                 <form action="{{route('admin.artikel.postEdit', ['id'=>$data['artikel']['id']])}}" method="POST">
                                 @method('PATCH')
                             @elseif($data['mode'] == 'Add')
-                                <form action="{{route('admin.artikel.postLogin')}}" method="POST">
+                                <form action="{{route('admin.artikel.postInput')}}" method="POST">
                             @endif
                                 @csrf
                                 <div class="form-group">
