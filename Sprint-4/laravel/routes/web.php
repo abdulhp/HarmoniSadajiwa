@@ -1,7 +1,7 @@
 <?php
 
-use App\Admin;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Landing;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,9 +15,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [Landing::class, 'index'])
+->name('landingPage');
 
 //Universal Login and Member Registration and logout
 Route::get('/login', [AdminController::class, 'login'])
@@ -37,7 +36,8 @@ Route::get('/logout', [AdminController::class, 'logout'])
 
 //Admin Route
 Route::middleware('login.check')->group(function () {
-    Route::get('/admin', [AdminController::class, 'index']);
+    Route::get('/admin', [AdminController::class, 'index'])
+    ->name('admin');
 
     Route::get('/admin/dashboard', [AdminController::class, 'index'])
     ->name('admin.dashboard');
