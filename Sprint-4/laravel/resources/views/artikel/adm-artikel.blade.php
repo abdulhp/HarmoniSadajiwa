@@ -49,7 +49,7 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Judul</th>
+                                        <th id="judul">Judul</th>
                                         <th>Creator</th>
                                         <th>Created At</th>
                                         <th>Updated At</th>
@@ -60,14 +60,18 @@
                                     @foreach ($data['artikelData'] as $artikel)
                                     <tr>
                                         <td>{{$loop->iteration}}</td>
-                                        <td>{{$artikel['judul']}}</td>
+                                        <td id="judul">{{$artikel['judul']}}</td>
                                         <td>{{$artikel['creator']}}</td>
                                         <td>{{$artikel['created_at']}}</td>
                                         <td>{{$artikel['updated_at']}}</td>
                                         <td>
                                             <div class="btn-group">
-                                                <a href="" class="btn btn-warning"><span class="fas fa-pen"></span></a>
-                                                <a href="" class="btn btn-danger"><span class="fas fa-trash"></span></a>
+                                                <a href="{{route('admin.artikel.edit', ['id' => $artikel['id']])}}" class="btn btn-warning"><span class="fas fa-pen"></span></a>
+                                                <form action="{{route('admin.artikel.delete', ['id'=> $artikel['id']])}}" method="POST">
+                                                    @method('DELETE')
+                                                    @csrf
+                                                    <button type="submit" class="btn btn-danger"><span class="fas fa-trash"></span></button>
+                                                </form>
                                             </div>
                                         </td>
                                     </tr>
@@ -101,18 +105,13 @@
 <script src="{{url('')}}/laravel/vendor/almasaeed2010/adminlte/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
 <script>
     $(function () {
-        $("#example1").DataTable({
+
+        var dataTemp = ''
+        var table1 = $("#example1").DataTable({
             responsive: true,
             lengthChange: true,
             autoWidth: false,
-            columns: [
-                {
-                    data: 'judul',
-                    render: function() {
-                        return
-                    }
-                }
-            ],
+            deferRender: true,
             buttons: {
                 dom: {
                     button: {
@@ -127,7 +126,8 @@
                     }
                 }],
             }
-        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+        });
+        table1.buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
 
     })
 </script>

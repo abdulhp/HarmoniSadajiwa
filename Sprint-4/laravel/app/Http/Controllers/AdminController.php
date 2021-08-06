@@ -11,6 +11,7 @@ class AdminController extends Controller
 {
     public function index()
     {
+        $webData['activeMenu'] = '';
         $webData['pageTitle'] = 'Dashboard';
         return view('adm-dashboard', ['data'=> $webData]);
     }
@@ -23,12 +24,11 @@ class AdminController extends Controller
         return view('artikel/adm-artikel', ['data'=>$webData]);
     }
     
-    public function artikelInput(Request $request)
+    public function artikelInput(Request $request, $id = null)
     {
         $method = $request->method();
-        $routeBefore = $request->routeIs('admin.artikel.postInput');
         
-        if($method == 'POST' && $routeBefore == 1){
+        if($method == 'POST' && $request->routeIs('admin.artikel.postInput') == 1){
             $validateData = $request->validate([
                 'judul' => 'required',
                 'deskripsi' => 'required'
@@ -42,13 +42,52 @@ class AdminController extends Controller
 
             session()->flash('success', 'Yuhu! kamu telah berhasil menambah artikel');
             return redirect()->route('admin.artikel');
+        }else if ($method == 'GET' && $request->routeIs('admin.artikel.edit')) {
+            $artikel = Artikel::findOrFail($id);
 
+            $webData['activeMenu'] = 'Artikel';
+            $webData['pageTitle'] = 'Edit Artikel';
+            $webData['artikel'] = $artikel;
+            $webData['mode'] = 'Edit';
+            return view('artikel/adm-input-artikel', ['data' => $webData]);
+        }else if($method == 'PATCH' && $request->routeIs('admin.artikel.postEdit')) {
+            
+        
         }else{
             $webData['activeMenu'] = 'Artikel';
             $webData['pageTitle'] = 'Tambah Artikel';
-            return view('artikel/adm-tambah-artikel', ['data' => $webData]);   
+            $webData['mode'] = 'Add';
+            return view('artikel/adm-input-artikel', ['data' => $webData]);   
         }
     }
+
+    public function artikelUpdate(Request $request, $id)
+    {
+        $validateData = $request->validate([
+            'judul' => 'required',
+            'deskripsi' => 'required'
+        ]);
+
+        $artikel = Artikel::findOrFail($id);
+
+        $artikel->judul = $validateData['judul'];
+        $artikel->deskripsi = $validateData['deskripsi'];
+        $artikel->creator = session('name');
+        $artikel->save();
+
+        session()->flash('success', 'Yuhu! kamu telah berhasil merubah artikel');
+        return redirect()->route('admin.artikel');
+    }
+
+    public function artikelDelete(Request $request, $id)
+    {
+        $artikel = Artikel::findOrFail($id);
+        $artikel->delete();
+        session()->flash('success', 'Yuhu! kamu telah berhasil menghapus artikel');
+        return redirect()->route('admin.artikel');
+    }
+
+
     
     public function login(Request $request)
     {

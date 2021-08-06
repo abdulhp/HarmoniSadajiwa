@@ -38,7 +38,12 @@
                         </div> --}}
                         <!-- /.card-header -->
                         <div class="card-body">
-                            <form action="{{route('admin.artikel.postInput')}}" method="POST">
+                            @if ($data['mode'] == 'Edit')
+                                <form action="{{route('admin.artikel.postEdit', ['id'=>$data['artikel']['id']])}}" method="POST">
+                                @method('PATCH')
+                            @elseif($data['mode'] == 'Add')
+                                <form action="{{route('admin.artikel.postLogin')}}" method="POST">
+                            @endif
                                 @csrf
                                 <div class="form-group">
                                     <label for="judul">Judul</label>
@@ -47,7 +52,7 @@
                                         {{$message}}
                                     </div>
                                     @enderror
-                                    <textarea class="@error('judul') is-invalid @enderror" name="judul" id="judul"></textarea>
+                                    <input type="text" class="@error('judul') is-invalid @enderror input-group" name="judul" id="judul" @if ($data['artikel'] != null) value="{{$data['artikel']['judul']}}" @endif>
                                 </div>
                                 <div class="form-group">
                                     <label for="deksripsi">Deskripsi</label>
@@ -56,9 +61,9 @@
                                         {{$message}}
                                     </div>
                                     @enderror
-                                    <textarea class="@error('deskripsi') is-invalid @enderror" name="deskripsi" id="deskripsi" cols="30" rows="10"></textarea>
+                                    <textarea class="@error('deskripsi') is-invalid @enderror" name="deskripsi" id="deskripsi" cols="30" rows="10">@if ($data['artikel'] != null) {{$data['artikel']['deskripsi']}} @endif</textarea>
                                 </div>
-                                <button type="submit" class="btn btn-primary btn-block">Tambah</button>
+                                <button type="submit" class="btn btn-primary btn-block">Simpan</button>
                             </form>
                         </div>
                         <!-- /.card-body -->
@@ -82,7 +87,6 @@
 <script>
     $(function () {
         // Summernote
-        $('#judul').summernote()
         $('#deskripsi').summernote({
             height: 300
         })

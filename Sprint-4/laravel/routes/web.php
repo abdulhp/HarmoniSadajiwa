@@ -50,4 +50,13 @@ Route::middleware('login.check')->group(function () {
 
     route::post('admin/artikel/input', [AdminController::class, 'artikelInput'])
     ->name('admin.artikel.postInput');
+
+    route::get('/admin/artikel/edit/{id}', [AdminController::class, 'artikelInput'])
+    ->name('admin.artikel.edit');
+
+    route::patch('/admin/artikel/edit/{id}', [AdminController::class, 'artikelUpdate'])
+    ->name('admin.artikel.postEdit');
+
+    route::delete('/admin/artikel/delete/{id}', [AdminController::class, 'artikelDelete'])
+    ->name('admin.artikel.delete');
 });
