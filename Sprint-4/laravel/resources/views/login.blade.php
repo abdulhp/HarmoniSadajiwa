@@ -28,6 +28,24 @@
           <h5><i class="icon fas fa-ban"></i> Oops!</h5>
           {{session('error')}}
         </div>
+        @endif
+        @if (session()->has('loginCheck'))
+        <div class="alert alert-danger">
+          <h5><i class="icon fas fa-ban"></i> Oops!</h5>
+          {{session('loginCheck')}}
+        </div>
+        @endif
+        @if (session()->has('status'))
+        <div class="alert alert-success">
+          <h5><i class="icon fas fa-check"></i> Bye-Bye</h5>
+          {{session('status')}}
+        </div>
+        @endif 
+        @if (session()->has('success'))
+        <div class="alert alert-success">
+          <h5><i class="icon fas fa-check"></i> Yes! berhasil</h5>
+          {{session('success')}}
+        </div>
         @endif    
         <form action="{{route('admin.postLogin')}}" method="post">
           @csrf
