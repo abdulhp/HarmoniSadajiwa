@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Artikel;
+use App\Models\Musik;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use File;
 
 class AdminController extends Controller
 {
@@ -13,6 +15,8 @@ class AdminController extends Controller
     {
         $webData['activeMenu'] = '';
         $webData['pageTitle'] = 'Dashboard';
+        $webData['jmlArtikel'] = Artikel::count();
+        $webData['jmlMusik'] = Musik::count();
         return view('adm-dashboard', ['data'=> $webData]);
     }
     
@@ -50,13 +54,11 @@ class AdminController extends Controller
             $webData['artikel'] = $artikel;
             $webData['mode'] = 'Edit';
             return view('artikel/adm-input-artikel', ['data' => $webData]);
-        }else if($method == 'PATCH' && $request->routeIs('admin.artikel.postEdit')) {
-            
-        
         }else{
             $webData['activeMenu'] = 'Artikel';
             $webData['pageTitle'] = 'Tambah Artikel';
             $webData['mode'] = 'Add';
+            $webData['artikel'] = null;
             return view('artikel/adm-input-artikel', ['data' => $webData]);   
         }
     }
@@ -85,6 +87,116 @@ class AdminController extends Controller
         $artikel->delete();
         session()->flash('success', 'Yuhu! kamu telah berhasil menghapus artikel');
         return redirect()->route('admin.artikel');
+    }
+
+    public function musik()
+    {
+        $webData['activeMenu'] = 'Musik';
+        $webData['pageTitle'] = 'Musik';
+        $webData['musikData'] = Musik::all();
+        return view('musik/adm-music', ['data'=>$webData]);
+    }
+
+    public function musikInput(Request $request, $id = null)
+    {
+        $method = $request->method();
+        
+        if($method == 'POST' && $request->routeIs('admin.musik.postInput') == 1){
+            $validateData = $request->validate([
+                'judul' => 'required',
+                'pencipta' => 'required',
+                'daerah' => 'required',
+                'lirik' => 'required',
+                'gambar' => 'required',
+                'lagu' => 'required'
+            ]);
+
+            $musik = new Musik();
+            $musik->judul = $validateData['judul'];
+            $musik->pencipta = $validateData['pencipta'];
+            $musik->daerah = $validateData['daerah'];
+            $musik->lirik = $validateData['lirik'];
+
+            if ($request->hasFile('gambar') && $request->hasFile('lagu')) {
+                $imgExtFile = $request->gambar->getClientOriginalExtension();
+                $laguExtFile = $request->lagu->getClientOriginalExtension();
+
+                $imgNamaFile = $musik->judul.'-'.time().".".$imgExtFile;
+                $laguNamaFile = $musik->judul.'-'.time().".".$laguExtFile;
+
+                $imgPath = $request->gambar->move('assets/musik/gambar', $imgNamaFile);
+                $laguPath = $request->lagu->move('assets/musik/lagu', $laguNamaFile);
+                $musik->gambar = $imgPath;
+                $musik->audio = $laguPath;
+            }
+            $musik->save();
+
+            session()->flash('success', 'Yuhu! kamu telah berhasil menambah musik');
+            return redirect()->route('admin.musik');
+        }else if ($method == 'GET' && $request->routeIs('admin.musik.edit')) {
+            $musik = Musik::findOrFail($id);
+
+            $webData['activeMenu'] = 'Musik';
+            $webData['pageTitle'] = 'Edit Musik';
+            $webData['musik'] = $musik;
+            $webData['mode'] = 'Edit';
+            return view('musik/adm-input-musik', ['data' => $webData]);
+        }else{
+            $webData['activeMenu'] = 'Musik';
+            $webData['pageTitle'] = 'Tambah Musik';
+            $webData['mode'] = 'Add';
+            $webData['musik'] = null;
+            return view('musik/adm-input-musik', ['data' => $webData]);   
+        }
+    }
+
+    public function musikUpdate(Request $request, $id)
+    {
+        $validateData = $request->validate([
+            'judul' => 'required',
+            'pencipta' => 'required',
+            'daerah' => 'required',
+            'lirik' => 'required',
+            'gambar' => 'required',
+            'lagu' => 'required'
+        ]);
+
+        $musik = Musik::findOrFail($id);
+
+        $musik->judul = $validateData['judul'];
+        $musik->pencipta = $validateData['pencipta'];
+        $musik->daerah = $validateData['daerah'];
+        $musik->lirik = $validateData['lirik'];
+
+        if ($request->hasFile('gambar') && $request->hasFile('lagu')) {
+            $imgExtFile = $request->gambar->getClientOriginalExtension();
+            $laguExtFile = $request->lagu->getClientOriginalExtension();
+
+            $imgNamaFile = $musik->judul.'-'.time().".".$imgExtFile;
+            $laguNamaFile = $musik->judul.'-'.time().".".$laguExtFile;
+
+            File::delete($musik->gambar);
+            File::delete($musik->lagu);
+
+            $imgPath = $request->gambar->move('assets/musik/gambar', $imgNamaFile);
+            $laguPath = $request->lagu->move('assets/musik/lagu', $laguNamaFile);
+            $musik->gambar = $imgPath;
+            $musik->audio = $laguPath;
+        }
+        $musik->save();
+
+        session()->flash('success', 'Yuhu! kamu telah berhasil merubah musik');
+        return redirect()->route('admin.musik');
+    }
+
+    public function musikDelete(Request $request, $id)
+    {
+        $musik = Musik::findOrFail($id);
+        File::delete($musik->gambar);
+        File::delete($musik->lagu);
+        $musik->delete();
+        session()->flash('success', 'Yuhu! kamu telah berhasil menghapus musik');
+        return redirect()->route('admin.musik');
     }
 
 
@@ -120,7 +232,6 @@ class AdminController extends Controller
         }
     }
     
-    //for admin sementara
     public function register(Request $request)
     {
         $method = $request->method();
@@ -153,3 +264,4 @@ class AdminController extends Controller
         return redirect('/login');
     }
 }
+

@@ -15,6 +15,12 @@ class CreateMusiksTable extends Migration
     {
         Schema::create('musiks', function (Blueprint $table) {
             $table->id();
+            $table->string('judul');
+            $table->string('pencipta');
+            $table->string('daerah');
+            $table->string('lirik');
+            $table->string('gambar');
+            $table->string('audio');
             $table->timestamps();
         });
     }
